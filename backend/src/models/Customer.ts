@@ -8,27 +8,30 @@ export interface ICustomer extends Document {
   address: string;
 }
 
-const CustomerSchema = new Schema<ICustomer>({
-  firstname: {
-    type: String,
-    required: true,
+const CustomerSchema = new Schema<ICustomer>(
+  {
+    firstname: {
+      type: String,
+      required: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
   },
-  lastname: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 export const Customer = model<ICustomer>("Customer", CustomerSchema);
