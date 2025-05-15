@@ -8,13 +8,13 @@ dotenv.config();
 // Initialize express app
 const app = express();
 
+// Middleware
+app.use(express.json());
+
 // Database connection
 connectDB();
 
 const PORT = process.env.PORT || 3000;
-
-// Middleware
-app.use(express.json());
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
