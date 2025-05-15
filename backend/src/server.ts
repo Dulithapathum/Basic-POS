@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db";
 import cors from "cors";
+import customerRoutes from "./routes/customerRoutes";
 // Importing dotenv to load environment variables
 dotenv.config();
 
@@ -14,6 +15,8 @@ app.use(cors());
 
 // Database connection
 connectDB();
+
+app.use("/api/customers", customerRoutes);
 
 const PORT = process.env.PORT || 3000;
 

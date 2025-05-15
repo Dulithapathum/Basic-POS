@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const ProductSchema = z.object({
+export const productSchema = z.object({
   name: z.string().min(1, "Product name is required"),
   category: z.string().min(1, "Category is required"),
   image: z.string().url("Invalid image URL"),
