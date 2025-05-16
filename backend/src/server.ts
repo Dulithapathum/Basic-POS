@@ -4,6 +4,7 @@ import { connectDB } from "./config/db";
 import cors from "cors";
 import customerRoutes from "./routes/customerRoutes";
 import adminRoutes from "./routes/adminRoutes";
+import productRoutes from "./routes/productRoutes";
 // Importing dotenv to load environment variables
 dotenv.config();
 
@@ -19,6 +20,7 @@ connectDB();
 
 app.use("/api/customers", customerRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/products", productRoutes);
 
 const PORT = process.env.PORT || 3000;
 
