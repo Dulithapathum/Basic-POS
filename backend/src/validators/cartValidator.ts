@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const cartSchema = z.object({
+export const cartValidator = z.object({
   customerId: z.string().min(1, "Customer ID is required"),
   items: z
     .array(

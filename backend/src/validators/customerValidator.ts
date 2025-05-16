@@ -1,6 +1,6 @@
 import { number, z } from "zod";
 
-export const customerSchema = z.object({
+export const customerValidator = z.object({
   firstname: z.string().min(1, "First name is required"),
   lastname: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email address"),

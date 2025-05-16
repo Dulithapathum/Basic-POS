@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { custom } from "zod";
-import { customerSchema } from "../validators/customerSchema";
+
 import { Customer } from "../models/Customer";
+import { customerValidator } from "../validators/customerValidator";
 
 export const addCustomer = async (req: Request, res: Response) => {
   try {
-    const validateData = customerSchema.safeParse(req.body);
+    const validateData = customerValidator.safeParse(req.body);
     if (validateData.success) {
       const customer = await Customer.create(validateData.data);
       res
