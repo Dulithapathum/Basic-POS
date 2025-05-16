@@ -5,11 +5,12 @@ import {
   getAllCustomer,
   getCustomerById,
 } from "../controller/customerController";
+import { verifyAdmin } from "../middleware/auth";
 
 const router = Router();
 
-router.post("/", addCustomer);
-router.delete("/:id", deleteCustomer);
+router.post("/", verifyAdmin, addCustomer);
+router.delete("/:id", verifyAdmin, deleteCustomer);
 router.get("/", getAllCustomer);
 router.get("/:id", getCustomerById);
 
