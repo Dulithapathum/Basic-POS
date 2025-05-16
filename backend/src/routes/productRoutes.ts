@@ -9,8 +9,8 @@ import { verifyAdmin } from "../middleware/auth";
 
 const router = Router();
 
-router.post("/", addProducts);
-router.delete("/:id", deleteProduct);
+router.post("/", verifyAdmin, addProducts);
+router.delete("/:id", verifyAdmin, deleteProduct);
 router.get("/", getAllProducts);
 router.get("/:id", getProductById);
 
