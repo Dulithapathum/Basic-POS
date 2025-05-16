@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-router.post("/add", addCustomer);
+router.post("/", addCustomer);
 router.delete("/:id", deleteCustomer);
 router.get("/", getAllCustomer);
 router.get("/:id", getCustomerById);
