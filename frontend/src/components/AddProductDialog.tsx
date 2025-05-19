@@ -18,16 +18,19 @@ import { showToast } from "@/utils/toast";
 const formSchema = z.object({
   name: z.string().min(1, "Product name is required"),
   category: z.string().min(1, "Category is required"),
-  image: z.string().url("Invalid image URL"),
   description: z.string().min(1, "Description is required"),
   price: z.coerce.number().min(0, "Price must be a positive number"),
   countInStock: z.coerce.number().min(0, "Count must be a positive number"),
+  image: z
+    .any()
+    .refine((files) => files?.length === 1, { message: "Image is required" }),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 const AddProductDialog = () => {
   const [open, setOpen] = useState(false);
+  const [inputKey, setInputKey] = useState(Date.now());
 
   const {
     register,
@@ -41,13 +44,29 @@ const AddProductDialog = () => {
   const onSubmit = async (data: FormData) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/products`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("category", data.category);
+      formData.append("description", data.description);
+      formData.append("price", data.price.toString());
+      formData.append("countInStock", data.countInStock.toString());
+      formData.append("image", data.image[0]);
+
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/products`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
       showToast("success", "Product Added Successfully.");
       reset();
+      setInputKey(Date.now());
       setOpen(false);
     } catch (error) {
       console.error("Failed to add product:", error);
@@ -103,14 +122,19 @@ const AddProductDialog = () => {
           </div>
 
           <div>
-            <Label htmlFor="image">Image URL</Label>
+            <Label htmlFor="image">Product Image</Label>
             <input
+              key={inputKey}
+              type="file"
               id="image"
               {...register("image")}
+              accept="image/*"
               className="w-full p-2 mt-1 border-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
             />
-            {errors.image && (
-              <p className="text-sm text-red-500">{errors.image.message}</p>
+            {errors.image?.message && (
+              <p className="text-sm text-red-500">
+                {String(errors.image.message)}
+              </p>
             )}
           </div>
 
