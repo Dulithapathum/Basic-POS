@@ -12,6 +12,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "./ui/label";
+import axios from "axios";
+import { showToast } from "@/utils/toast";
 
 const formSchema = z.object({
   firstname: z.string().min(1, "First name is required"),
@@ -38,10 +40,21 @@ const AddCustomerDialog = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log("Customer Added:", data);
-    reset();
-    setOpen(false);
+  const onSubmit = async (data: FormData) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/customers`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      showToast("success", "Customer Added Successfully.");
+      reset();
+      setOpen(false);
+    } catch (error) {
+      console.error("Failed to add customer:", error);
+      showToast("error", "Error Adding customer");
+    }
   };
 
   return (
@@ -52,7 +65,10 @@ const AddCustomerDialog = () => {
           Add New Customer
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] bg-white border-none">
+      <DialogContent
+        aria-describedby={undefined}
+        className="sm:max-w-[600px] bg-white border-none"
+      >
         <DialogHeader>
           <DialogTitle className="text-center">Add New Customer</DialogTitle>
         </DialogHeader>
