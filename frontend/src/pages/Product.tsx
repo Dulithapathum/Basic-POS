@@ -1,11 +1,13 @@
 import NavBar from "../components/NavBar";
 
-const Dashboard = () => {
+const Product = () => {
   return (
     <div className="w-full flex bg-gray-200">
+      {" "}
       <NavBar />
+      Product
     </div>
   );
 };
 
-export default Dashboard;
+export default Product;
