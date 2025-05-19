@@ -1,9 +1,9 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AdminLogin from "./pages/adminLogin";
-import AdminRegister from "./pages/adminRegister";
-import Dashboard from "./pages/dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
+import AdminLogin from "./pages/AdminLogin";
+import AdminRegister from "./pages/AdminRegister";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            index
+            path="/"
             element={
               <ProtectedRoute>
                 <Dashboard />
