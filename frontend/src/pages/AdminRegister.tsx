@@ -4,6 +4,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { showToast } from "../utils/toast";
 
 const registerSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -28,7 +31,20 @@ const AdminRegister = () => {
     setShowPassword(!showpassword);
   };
 
-  const onSubmit = () => {};
+  const onSubmit = async (data: RegisterFormInputs) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/admin/register`,
+        data
+      );
+
+      showToast("success", response.data.message);
+      navigate("/login");
+    } catch (error: any) {
+      showToast("error", error.response?.data?.message || error.message);
+    }
+  };
+
   return (
     <div className="w-full h-screen mx-auto flex items-center justify-center bg-[#efefef]">
       <div className="max-w-4xl m-3 sm:m-0 flex flex-col sm:flex-row items-center bg-[#FFC903] rounded-lg">
