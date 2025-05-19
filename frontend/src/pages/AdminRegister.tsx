@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const registerSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -54,7 +54,6 @@ const AdminRegister = () => {
                 </p>
               )}
             </div>
-
             <div className="mb-4">
               <label className="font-semibold">
                 Password<span className="text-red-500"> *</span>
@@ -79,13 +78,21 @@ const AdminRegister = () => {
                 </p>
               )}
             </div>
-
             <button
               type="submit"
               className="w-full bg-[#ff1111] hover:bg-red-600 text-white font-bold p-2 rounded-sm cursor-pointer"
             >
               Register
-            </button>
+            </button>{" "}
+            <p className="mt-2 text-center text-sm text-white">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-[#ff1111] hover:text-white transition-colors duration-300"
+              >
+                Login
+              </Link>
+            </p>
           </form>
         </div>
       </div>
