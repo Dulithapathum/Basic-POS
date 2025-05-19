@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import NavBar from "../components/NavBar";
 
 const Dashboard = () => {
