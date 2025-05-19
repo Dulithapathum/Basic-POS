@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -87,6 +87,15 @@ const AdminLogin = () => {
             >
               Login
             </button>
+            <p className="mt-2 text-center text-sm text-white">
+              Don't have an account?{" "}
+              <Link
+                to="/register"
+                className="text-[#ff1111] hover:text-white transition-colors duration-300"
+              >
+                Register
+              </Link>
+            </p>
           </form>
         </div>
       </div>
