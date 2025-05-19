@@ -1,5 +1,6 @@
 import AddProductDialog from "@/components/AddProductDialog";
 import NavBar from "../components/NavBar";
+import ProductTable from "@/components/ProductTable";
 
 const Product = () => {
   return (
@@ -8,11 +9,12 @@ const Product = () => {
       <div className=" w-full mx-auto md:py-10">
         <div>
           <h1 className="text-center text-3xl font-bold mb-16">
-            Customer Management
+            Product Management
           </h1>
           <div className="flex justify-end md:mr-10 ">
             <AddProductDialog />
           </div>
+          <ProductTable />
         </div>
       </div>
     </div>
