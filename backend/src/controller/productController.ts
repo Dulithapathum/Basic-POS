@@ -6,14 +6,25 @@ import { Product } from "../models/product";
 export const addProducts = async (req: Request, res: Response) => {
   try {
     const validateData = productValidator.safeParse(req.body);
-    if (validateData.success) {
-      const product = await Product.create(validateData.data);
-      res.status(201).json({ message: "Product added successfully", product });
+
+    if (!req.file) {
+      res.status(400).json({ message: "Image is required" });
     } else {
-      res.status(400).json({
-        message: "Invalid products data",
-        errors: validateData.error.issues[0].message,
-      });
+      if (validateData.success) {
+        const product = await Product.create({
+          ...validateData.data,
+          image: req.file.path,
+        });
+        res
+          .status(201)
+          .json({ message: "Product added successfully", product });
+      } else {
+        res.status(400).json({
+          message: "Invalid products data",
+          errors: validateData.error.issues[0].message,
+        });
+        console.log(validateData.error);
+      }
     }
   } catch (error) {
     res.status(500).json({ message: "Error adding product", error });
