@@ -12,7 +12,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "./ui/label";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/store/Store";
+import { addProduct } from "@/store/slices/ProductSlice";
 import { showToast } from "@/utils/toast";
 
 const formSchema = z.object({
@@ -31,6 +33,7 @@ type FormData = z.infer<typeof formSchema>;
 const AddProductDialog = () => {
   const [open, setOpen] = useState(false);
   const [inputKey, setInputKey] = useState(Date.now());
+  const dispatch = useDispatch<AppDispatch>();
 
   const {
     register,
@@ -42,35 +45,22 @@ const AddProductDialog = () => {
   });
 
   const onSubmit = async (data: FormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("category", data.category);
+    formData.append("description", data.description);
+    formData.append("price", data.price.toString());
+    formData.append("countInStock", data.countInStock.toString());
+    formData.append("image", data.image[0]);
+
     try {
-      const token = localStorage.getItem("token");
-
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("category", data.category);
-      formData.append("description", data.description);
-      formData.append("price", data.price.toString());
-      formData.append("countInStock", data.countInStock.toString());
-      formData.append("image", data.image[0]);
-
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/products`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      showToast("success", "Product Added Successfully.");
+      await dispatch(addProduct(formData)).unwrap();
+      showToast("success", "Product added successfully.");
       reset();
       setInputKey(Date.now());
-      setOpen(false);
-    } catch (error) {
-      console.error("Failed to add product:", error);
-      showToast("error", "Error adding product");
+      setOpen(false); 
+    } catch (error: any) {
+      showToast("error", error || "Failed to add product");
     }
   };
 
@@ -110,6 +100,7 @@ const AddProductDialog = () => {
               {...register("category")}
               className="w-full p-2 mt-1 border-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
             >
+              <option value="">Select category</option>
               <option value="Electronics">Electronics</option>
               <option value="Fashion">Fashion</option>
               <option value="Books">Books</option>

@@ -66,7 +66,7 @@ const CustomerTable = () => {
   }, []);
 
   return (
-    <div className="table-container p-8 m-10 rounded-md shadow-md bg-white">
+    <div className="max-w-8xl p-8 m-10 rounded-md shadow-md bg-white">
       <h2 className="text-xl font-semibold mb-4">Customer List</h2>
 
       {loading ? (
@@ -76,7 +76,7 @@ const CustomerTable = () => {
           No customers found. Add a new customer to get started.
         </p>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-auto h-70 ">
           <Table>
             <caption className="sr-only">Customer Data Table</caption>
             <TableHeader>

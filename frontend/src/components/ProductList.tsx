@@ -27,12 +27,12 @@ const ProductList = () => {
 
   return (
     <div className="bg-gray-100 max-h-screen w-full  ">
-      {loading && <p className="text-center p-4">Loading products...</p>}
-      {error && <p className="text-center p-4 text-red-500">{error}</p>}
       <ProductCategories
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
       />
+      {loading && <p className="text-center p-4">Loading products...</p>}
+      {error && <p className="text-center p-4 text-red-500">{error}</p>}
       <ProductItem products={filteredProducts} />
     </div>
   );

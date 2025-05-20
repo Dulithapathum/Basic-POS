@@ -39,6 +39,41 @@ export const fetchProducts = createAsyncThunk<
   }
 });
 
+export const addProduct = createAsyncThunk<
+  IProduct,
+  FormData,
+  { rejectValue: string }
+>("product/addProduct", async (data, { rejectWithValue }) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("name", data.get("name") as string);
+    formData.append("category", data.get("category") as string);
+    formData.append("description", data.get("description") as string);
+    formData.append("price", data.get("price") as string);
+    formData.append("countInStock", data.get("countInStock") as string);
+    formData.append("image", data.get("image") as File);
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/products`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response.data.data;
+  } catch (err: any) {
+    return rejectWithValue(
+      err.response?.data?.message || "Failed to add product"
+    );
+  }
+});
+
 const productSlice = createSlice({
   name: "product",
   initialState,
@@ -62,7 +97,10 @@ const productSlice = createSlice({
           state.loading = false;
           state.error = action.payload ?? "Something went wrong";
         }
-      );
+      )
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.products.push(action.payload);
+      });
   },
 });
 
