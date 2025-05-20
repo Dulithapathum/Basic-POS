@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button";
 
-interface MenuCategoriesProps {
+interface ProductCategoriesProps {
   activeCategory: string;
   setActiveCategory: (category: string) => void;
 }
 
-export default function MenuCategories({
+export default function ProductCategories({
   activeCategory,
   setActiveCategory,
-}: MenuCategoriesProps) {
+}: ProductCategoriesProps) {
   const categories = [
     "Electronics",
     "Fashion",

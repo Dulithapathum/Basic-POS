@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, type IProduct } from "../store/slices/ProductSlice";
 import type { RootState, AppDispatch } from "../store/Store";
-import MenuItem from "./MenuItem";
-import MenuCategories from "./MenuCategories";
+import ProductCategories from "./ProductCategories";
+import ProductItem from "./ProductItem";
 
 const ProductList = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,11 +29,11 @@ const ProductList = () => {
     <div className="bg-gray-100 max-h-screen w-full  ">
       {loading && <p className="text-center p-4">Loading products...</p>}
       {error && <p className="text-center p-4 text-red-500">{error}</p>}
-      <MenuCategories
+      <ProductCategories
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
       />
-      <MenuItem products={filteredProducts} />
+      <ProductItem products={filteredProducts} />
     </div>
   );
 };

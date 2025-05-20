@@ -1,18 +1,11 @@
+import type { IProduct } from "@/store/slices/ProductSlice";
 import { Card, CardContent } from "./ui/card";
 
-interface Product {
-  _id: string;
-  name: string;
-  image: string;
-  price: number;
-  countInStock: number;
-}
-
 interface ProductsItemProps {
-  products: Product[];
+  products: IProduct[];
 }
 
-const MenuItem = ({ products }: ProductsItemProps) => {
+const ProductItem = ({ products }: ProductsItemProps) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 max-h-9/10  overflow-auto">
       {products.map((product) => (
@@ -46,4 +39,4 @@ const MenuItem = ({ products }: ProductsItemProps) => {
   );
 };
 
-export default MenuItem;
+export default ProductItem;
