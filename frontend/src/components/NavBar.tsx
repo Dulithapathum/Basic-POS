@@ -27,11 +27,11 @@ const NavBar = () => {
           <div
             className={`p-4 border-2 my-3 rounded transition-colors duration-300 ${
               isActive("/")
-                ? "border-[#ff1111] bg-red-100"
-                : "border-white hover:border-[#ff1111] hover:bg-red-100"
+                ? "border-orange-500 bg-orange-100"
+                : "border-white hover:border-orange-500 hover:bg-orange-100"
             }`}
           >
-            <AiOutlineHome className="text-[#ff1111] text-2xl" />
+            <AiOutlineHome className="text-orange-500 text-2xl" />
           </div>
         </Link>
 
@@ -39,11 +39,11 @@ const NavBar = () => {
           <div
             className={`p-4 border-2 my-3 rounded transition-colors duration-300 ${
               isActive("/customer")
-                ? "border-[#ff1111] bg-red-100"
-                : "border-white hover:border-[#ff1111] hover:bg-red-100"
+                ? "border-orange-500 bg-orange-100"
+                : "border-white hover:border-orange-500 hover:bg-orange-100"
             }`}
           >
-            <AiOutlineUser className="text-[#ff1111] text-2xl" />
+            <AiOutlineUser className="text-orange-500 text-2xl" />
           </div>
         </Link>
 
@@ -51,11 +51,11 @@ const NavBar = () => {
           <div
             className={`p-4 border-2 my-3 rounded transition-colors duration-300 ${
               isActive("/products")
-                ? "border-[#ff1111] bg-red-100"
-                : "border-white hover:border-[#ff1111] hover:bg-red-100"
+                ? "border-orange-500 bg-orange-100"
+                : "border-white hover:border-orange-500 hover:bg-orange-100"
             }`}
           >
-            <AiOutlineTags className="text-[#ff1111] text-2xl" />
+            <AiOutlineTags className="text-orange-500 text-2xl" />
           </div>
         </Link>
 
@@ -63,11 +63,11 @@ const NavBar = () => {
           <div
             className={`p-4 border-2 my-3 rounded transition-colors duration-300 ${
               isActive("/orders")
-                ? "border-[#ff1111] bg-red-100"
-                : "border-white hover:border-[#ff1111] hover:bg-red-100"
+                ? "border-orange-500 bg-orange-100"
+                : "border-white hover:border-orange-500 hover:bg-orange-100"
             }`}
           >
-            <AiOutlineShopping className="text-[#ff1111] text-2xl" />
+            <AiOutlineShopping className="text-orange-500 text-2xl" />
           </div>
         </Link>
 
@@ -75,11 +75,11 @@ const NavBar = () => {
           <div
             className={`p-4 border-2 my-3 rounded transition-colors duration-300 ${
               isActive("/setting")
-                ? "border-[#ff1111] bg-red-100"
-                : "border-white hover:border-[#ff1111] hover:bg-red-100"
+                ? "border-orange-500 bg-orange-100"
+                : "border-white hover:border-orange-500 hover:bg-orange-100"
             }`}
           >
-            <AiOutlineSetting className="text-[#ff1111] text-2xl" />
+            <AiOutlineSetting className="text-orange-500 text-2xl" />
           </div>
         </Link>
       </div>
@@ -89,7 +89,7 @@ const NavBar = () => {
           className={`p-4 border-2 my-3 rounded transition-colors duration-300 border-white "
           }`}
         >
-          <AiOutlinePoweroff className="text-gray-500 hover:text-[#ff1111] text-2xl" />
+          <AiOutlinePoweroff className="text-gray-500 hover:text-orange-500 text-2xl" />
         </div>
       </Link>
     </div>

@@ -110,11 +110,14 @@ const AddProductDialog = () => {
               {...register("category")}
               className="w-full p-2 mt-1 border-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
             >
-              <option value="">Select a category</option>
               <option value="electronics">Electronics</option>
               <option value="fashion">Fashion</option>
               <option value="books">Books</option>
               <option value="home">Home</option>
+              <option value="toys">Toys</option>
+              <option value="sports">Sports & Outdoors</option>
+              <option value="beauty">Beauty & Personal Care</option>
+              <option value="automotive">Automotive</option>
             </select>
             {errors.category && (
               <p className="text-sm text-red-500">{errors.category.message}</p>
