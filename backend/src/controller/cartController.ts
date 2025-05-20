@@ -1,13 +1,19 @@
 import { Request, Response } from "express";
 import { cartValidator } from "../validators/cartValidator";
 import { Cart } from "../models/cart";
+import { Product } from "../models/product";
 import mongoose from "mongoose";
 
-// // Create or update cart
+// Create or update cart
 export const updateCart = async (req: Request, res: Response) => {
   try {
     const validateData = cartValidator.safeParse(req.body);
-    if (validateData.success) {
+    if (!validateData.success) {
+      res.status(400).json({
+        message: "Invalid cart data",
+        errors: validateData.error.issues[0].message,
+      });
+    } else {
       const { customerId, items } = validateData.data;
       const customerObjectId = new mongoose.Types.ObjectId(customerId);
 
@@ -28,42 +34,25 @@ export const updateCart = async (req: Request, res: Response) => {
         });
       }
 
+      for (const item of formattedItems) {
+        const product = await Product.findById(item.productId);
+
+        if (product) {
+          if (product.countInStock < item.quantity) {
+            res.status(400).json({
+              message: `Not enough stock for product: ${product.name}`,
+            });
+          } else {
+            product.countInStock -= item.quantity;
+            await product.save();
+          }
+        }
+      }
+
       res.status(200).json(cart);
-    } else {
-      res.status(400).json({
-        message: "Invalid cart data",
-        errors: validateData.error.issues[0].message,
-      });
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server Error" });
-  }
-};
-
-// Get cart by customer
-export const getCart = async (req: Request, res: Response) => {
-  const { customerId } = req.params;
-
-  try {
-    const cart = await Cart.findOne({ customerId }).populate("items.productId");
-    if (!cart) {
-      res.status(404).json({ message: "Cart not found" });
-    } else {
-      res.json(cart);
-    }
-  } catch (err) {
-    res.status(500).json({ message: "Error retrieving cart" });
-  }
-};
-
-// Clear cart
-export const clearCart = async (req: Request, res: Response) => {
-  const { customerId } = req.body;
-
-  try {
-    await Cart.findOneAndDelete({ customerId });
-    res.status(200).json({ message: "Cart cleared" });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to clear cart" });
   }
 };
