@@ -66,7 +66,7 @@ const CustomerTable = () => {
   }, []);
 
   return (
-    <div className="table-container p-8 m-10 rounded-md bg-white">
+    <div className="table-container p-8 m-10 rounded-md shadow-md bg-white">
       <h2 className="text-xl font-semibold mb-4">Customer List</h2>
 
       {loading ? (

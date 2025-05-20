@@ -65,7 +65,7 @@ const ProductTable = () => {
   }, []);
 
   return (
-    <div className="table-container p-8 m-10 rounded-md bg-white">
+    <div className="table-container p-8 m-10 rounded-md shadow-md bg-white">
       <h2 className="text-xl font-semibold mb-4">Product List</h2>
 
       {loading ? (
