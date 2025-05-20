@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { showToast } from "@/utils/toast";
 
-type Customer = {
+export type Customer = {
   _id: string;
   firstname: string;
   lastname: string;

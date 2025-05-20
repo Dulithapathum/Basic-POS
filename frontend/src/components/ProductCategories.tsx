@@ -21,8 +21,8 @@ export default function ProductCategories({
   ];
 
   return (
-    <div className="  ">
-      <div className="flex items-center gap-2 p-4  shadow-sm ">
+    <div className=" flex justify-center ">
+      <div className="flex items-center gap-2 p-4  ">
         {categories.map((category) => (
           <Button
             key={category}

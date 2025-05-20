@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { showToast } from "@/utils/toast";
 import { fetchProducts, type IProduct } from "@/store/slices/ProductSlice";
@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/Store";
 
 const ProductTable = () => {
-  const [newproducts, setNewProducts] = useState<IProduct[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const { products, loading } = useSelector(
     (state: RootState) => state.product
@@ -25,13 +24,17 @@ const ProductTable = () => {
   const handleDeleteProduct = async (id: string) => {
     try {
       const token = localStorage.getItem("token");
+
       await axios.delete(`${import.meta.env.VITE_API_URL}/api/products/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
       showToast("success", "Product deleted successfully");
-      setNewProducts(newproducts.filter((product) => product._id !== id));
+
+      // Re-fetch product list from server
+      dispatch(fetchProducts());
     } catch (error) {
       console.error("Failed to delete product:", error);
       showToast("error", "Error deleting product");
@@ -42,20 +45,16 @@ const ProductTable = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  useEffect(() => {
-    setNewProducts(products);
-  }, [products]);
-
   return (
-    <div className="max-w-8xl  p-8 m-10 rounded-md shadow-md bg-white">
+    <div className="max-w-8xl p-8 m-10 rounded-md shadow-md bg-white">
       <h2 className="text-xl font-semibold mb-4">Product List</h2>
 
       {loading ? (
         <p>Loading...</p>
-      ) : newproducts.length === 0 ? (
+      ) : products.length === 0 ? (
         <p className="text-gray-600">No products found.</p>
       ) : (
-        <div className="overflow-auto h-70 ">
+        <div className="overflow-auto h-70">
           <Table>
             <caption className="sr-only">Product Data Table</caption>
             <TableHeader>
@@ -70,14 +69,14 @@ const ProductTable = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {newproducts
+              {products
                 .filter((product): product is IProduct => !!product)
                 .map((product) => (
                   <TableRow key={product._id}>
                     <TableCell>
                       <img
-                        src={product?.image || "/placeholder.jpg"}
-                        alt={product?.name || "Product"}
+                        src={product.image || "/placeholder.jpg"}
+                        alt={product.name}
                         className="h-12 w-12 object-cover rounded"
                       />
                     </TableCell>

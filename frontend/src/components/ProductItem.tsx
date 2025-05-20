@@ -1,17 +1,24 @@
 import type { IProduct } from "@/store/slices/ProductSlice";
 import { Card, CardContent } from "./ui/card";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/store/Store";
+import { addItemToCart } from "../store/slices/CartSlice";
 
 interface ProductsItemProps {
   products: IProduct[];
 }
 
 const ProductItem = ({ products }: ProductsItemProps) => {
+  const dispatch = useDispatch<AppDispatch>();
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 max-h-9/10  overflow-auto">
       {products.map((product) => (
         <Card
           key={product._id}
           className="cursor-pointer hover:shadow-md transition-shadow"
+          onClick={() => {
+            dispatch(addItemToCart({ product: product, quantity: 1 }));
+          }}
         >
           <CardContent className="p-0">
             <div className="flex flex-col items-center p-0">
