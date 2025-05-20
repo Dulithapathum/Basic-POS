@@ -28,7 +28,7 @@ connectDB();
 app.use("/api/customers", customerRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
-app.use("api/cart", cartRoutes);
+app.use("/api/cart", cartRoutes);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

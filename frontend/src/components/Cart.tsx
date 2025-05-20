@@ -17,11 +17,13 @@ import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 import CartActions from "./CartActions";
 import type { Customer } from "./CustomerTable";
+import { showToast } from "@/utils/toast";
 
 const Cart = () => {
   const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const [customers, setCustomers] = useState<Customer[]>([]);
+  const Items = useSelector((state: RootState) => state.cart);
 
   const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const subTotalPrice = cartItems.reduce(
@@ -50,6 +52,33 @@ const Cart = () => {
   };
 
   const handleClearCart = () => dispatch(clearCart());
+
+  const handleCheckout = async () => {
+    try {
+      if (!Items.customerId) {
+        showToast("error", "Please select a customer before checkout.");
+        return;
+      }
+
+      if (Items.items.length === 0) {
+        showToast("error", "Cart is empty.");
+        return;
+      }
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/cart`, {
+        customerId: Items.customerId,
+        items: Items.items.map((item) => ({
+          productId: item.product._id,
+          quantity: item.quantity,
+        })),
+      });
+
+      showToast("success", " Checkout successful");
+      dispatch(clearCart());
+    } catch (error) {
+      console.error("Checkout failed:", error);
+      showToast("success", "Checkout failed. Please try again.");
+    }
+  };
 
   return (
     <div className="w-150 shadow-md bg-white">
@@ -86,10 +115,7 @@ const Cart = () => {
           shipping={shippingCost}
           total={totalPrice}
         />
-        <CartActions
-          onClear={handleClearCart}
-          onCheckout={() => alert("Proceed to checkout")}
-        />
+        <CartActions onClear={handleClearCart} onCheckout={handleCheckout} />
       </div>
     </div>
   );
