@@ -76,7 +76,7 @@ const Cart = () => {
       dispatch(clearCart());
     } catch (error) {
       console.error("Checkout failed:", error);
-      showToast("success", "Checkout failed. Please try again.");
+      showToast("error", "Checkout failed. Please try again.");
     }
   };
 
