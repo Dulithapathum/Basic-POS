@@ -11,38 +11,16 @@ import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { showToast } from "@/utils/toast";
-
-type Product = {
-  _id: string;
-  name: string;
-  category: string;
-  image: string;
-  description: string;
-  price: number;
-  countInStock: number;
-};
-
-type ProductsResponse = {
-  success: boolean;
-  data: Product[];
-};
+import { fetchProducts, type IProduct } from "@/store/slices/ProductSlice";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/store/Store";
 
 const ProductTable = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get<ProductsResponse>(
-        `${import.meta.env.VITE_API_URL}/api/products`
-      );
-      setProducts(response.data.data);
-    } catch (error) {
-      console.error("Failed to fetch products:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [newproducts, setNewProducts] = useState<IProduct[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const { products, loading } = useSelector(
+    (state: RootState) => state.product
+  );
 
   const handleDeleteProduct = async (id: string) => {
     try {
@@ -53,7 +31,7 @@ const ProductTable = () => {
         },
       });
       showToast("success", "Product deleted successfully");
-      setProducts(products.filter((product) => product._id !== id));
+      setNewProducts(newproducts.filter((product) => product._id !== id));
     } catch (error) {
       console.error("Failed to delete product:", error);
       showToast("error", "Error deleting product");
@@ -61,16 +39,19 @@ const ProductTable = () => {
   };
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
+  useEffect(() => {
+    setNewProducts(products);
+  }, [products]);
   return (
     <div className="table-container p-8 m-10 rounded-md shadow-md bg-white">
       <h2 className="text-xl font-semibold mb-4">Product List</h2>
 
       {loading ? (
         <p>Loading...</p>
-      ) : products.length === 0 ? (
+      ) : newproducts.length === 0 ? (
         <p className="text-gray-600">No products found.</p>
       ) : (
         <div className="overflow-x-auto">
@@ -88,7 +69,7 @@ const ProductTable = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {products.map((product) => (
+              {newproducts.map((product) => (
                 <TableRow key={product._id}>
                   <TableCell>
                     <img
