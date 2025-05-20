@@ -50,13 +50,13 @@ export const deleteProduct = async (req: Request, res: Response) => {
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
     const products = await Product.find();
-    if (!products) {
-      res.status(404).json({ message: "Customer not found" });
+    if (!products || products.length === 0) {
+      res.status(404).json({ message: "Products not found" });
     } else {
       res.status(200).json({ success: true, data: products });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving customers", error });
+    res.status(500).json({ message: "Error retrieving Products", error });
   }
 };
 
@@ -66,12 +66,12 @@ export const getProductById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const product = await Product.findById(id);
     if (!product) {
-      res.status(404).json({ message: "Customer Not Found" });
+      res.status(404).json({ message: "Product Not Found" });
     } else {
       res.status(200).json({ success: true, product });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving customer", error });
+    res.status(500).json({ message: "Error retrieving product", error });
   }
 };
 

@@ -15,8 +15,8 @@ export default function MenuCategories({
     "Books",
     "Home",
     "Toys",
-    "Sports & Outdoors",
-    "Beauty & Personal Care",
+    "Sports ",
+    "Beauty ",
     "Automotive",
   ];
 
