@@ -16,8 +16,10 @@ import CustomerSelect from "./CustomerSelect";
 import CartItem from "./CartItem";
 import CartSummary from "./CartSummary";
 import CartActions from "./CartActions";
-import type { Customer } from "./CustomerTable";
+
 import { showToast } from "@/utils/toast";
+import type { Customer } from "@/types/types";
+import { fetchProducts } from "@/store/slices/ProductSlice";
 
 const Cart = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -71,9 +73,9 @@ const Cart = () => {
           quantity: item.quantity,
         })),
       });
-
       showToast("success", " Checkout successful");
       dispatch(clearCart());
+      dispatch(fetchProducts());
     } catch (error) {
       console.error("Checkout failed:", error);
       showToast("error", "Checkout failed. Please try again.");

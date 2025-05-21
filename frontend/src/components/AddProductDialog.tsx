@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "./ui/label";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store/Store";
-import { addProduct } from "@/store/slices/ProductSlice";
+import { addProduct, fetchProducts } from "@/store/slices/ProductSlice";
 import { showToast } from "@/utils/toast";
 import { Input } from "./ui/input";
 import { productFormSchema } from "@/validators/validators";
@@ -50,6 +50,7 @@ const AddProductDialog = () => {
       reset();
       setInputKey(Date.now());
       setOpen(false);
+      dispatch(fetchProducts());
     } catch (error: any) {
       showToast("error", error || "Failed to add product");
     }

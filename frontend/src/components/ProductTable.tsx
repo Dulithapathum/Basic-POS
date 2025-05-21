@@ -46,7 +46,7 @@ const ProductTable = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, [dispatch]);
+  }, []);
 
   // Pagination logic
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
