@@ -46,7 +46,7 @@ const cartSlice = createSlice({
       const item = state.items.find(
         (item) => item.product._id === action.payload
       );
-      if (item) {
+      if (item && item.quantity < item.product.countInStock) {
         item.quantity += 1;
       }
     },

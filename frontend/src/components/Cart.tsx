@@ -82,6 +82,14 @@ const Cart = () => {
     }
   };
 
+  const handleIncrease = (item: any) => {
+    if (item.quantity >= item.product.countInStock) {
+      showToast("warning", "Cannot add more. Product is out of stock.");
+    } else {
+      dispatch(increaseQuantity(item.product._id));
+    }
+  };
+
   return (
     <div className=" w-140 lg:w-140 h-screen flex flex-col justify-between  shadow-md bg-white">
       <div>
@@ -108,9 +116,7 @@ const Cart = () => {
                 <CartItem
                   key={item.product._id}
                   item={item}
-                  onIncrease={() =>
-                    dispatch(increaseQuantity(item.product._id))
-                  }
+                  onIncrease={() => handleIncrease(item)}
                   onDecrease={() =>
                     dispatch(decreaseQuantity(item.product._id))
                   }
