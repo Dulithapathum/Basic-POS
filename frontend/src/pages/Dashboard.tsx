@@ -4,9 +4,9 @@ import Cart from "@/components/Cart";
 
 const Dashboard = () => {
   return (
-    <div className="w-full flex justify-between bg-gray-200">
+    <div className="w-full flex justify-between bg-gray-100">
       <NavBar />
-      {/* <ProductList /> */}
+      <ProductList />
       <Cart />
     </div>
   );

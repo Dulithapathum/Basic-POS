@@ -24,24 +24,20 @@ export default function ProductCategories({
     "Sports",
     "Beauty",
     "Automotive",
-    "Toys",
-    "Sports",
-    "Beauty",
-    "Automotive",
   ];
 
   return (
-    <div className=" flex justify-center">
-      <Carousel className="max-w-lg  px-1 py-3">
-        <CarouselContent className="-ml-2">
+    <div className="w-full flex  justify-center">
+      <Carousel className="w-75 lg:w-120 xl:w-200 my-6">
+        <CarouselContent className="">
           {categories.map((category, index) => (
-            <CarouselItem key={index} className="pl-2 basis-auto flex-shrink-0">
+            <CarouselItem key={index} className=" basis-auto">
               <Button
                 onClick={() => setActiveCategory(category)}
-                className={`rounded-full px-4 py-2 text-sm whitespace-nowrap transition-colors ${
+                className={`rounded px-4 py-2 text-sm whitespace-nowrap transition-colors ${
                   activeCategory === category
                     ? "bg-orange-500 hover:bg-orange-600 text-white cursor-pointer"
-                    : "bg-white text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    : "bg-white text-gray-700 hover:bg-gray-300 cursor-pointer"
                 }`}
               >
                 {category}
@@ -49,8 +45,8 @@ export default function ProductCategories({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious variant={"link"} />
-        <CarouselNext variant={"link"} />
+        {/* <CarouselPrevious variant={"link"} />
+        <CarouselNext variant={"link"} /> */}
       </Carousel>
     </div>
   );

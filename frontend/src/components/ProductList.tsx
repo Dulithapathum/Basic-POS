@@ -26,7 +26,7 @@ const ProductList = () => {
   }, [activeCategory, products]);
 
   return (
-    <div className="bg-gray-100 max-h-screen w-full  ">
+    <div className="bg-gray-100 w-full h-screen overflow-y-auto ">
       <ProductCategories
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}

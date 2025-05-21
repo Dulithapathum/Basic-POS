@@ -81,7 +81,7 @@ const Cart = () => {
   };
 
   return (
-    <div className=" w-80 lg:w-100 h-screen flex flex-col justify-between  shadow-md bg-white">
+    <div className=" w-140 lg:w-140 h-screen flex flex-col justify-between  shadow-md bg-white">
       <div>
         <div className="w-full bg-white h-10 p-2 shadow-sm mb-6">
           <h2 className="font-semibold text-md lg:text-lg">Cart Items</h2>
@@ -101,7 +101,7 @@ const Cart = () => {
               </h2>
             </div>
           ) : (
-            <div className="flex flex-col gap-1 my-2 h-71 lg:h-90 overflow-y-auto overflow-x-hidden">
+            <div className="flex flex-col gap-1 my-2 h-71 lg:h-80 overflow-y-auto overflow-x-hidden">
               {cartItems.map((item) => (
                 <CartItem
                   key={item.product._id}
