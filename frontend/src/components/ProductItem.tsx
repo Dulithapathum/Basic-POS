@@ -1,18 +1,19 @@
-import type { IProduct } from "@/store/slices/ProductSlice";
 import { Card, CardContent } from "./ui/card";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store/Store";
 import { addItemToCart } from "../store/slices/CartSlice";
 import { showToast } from "@/utils/toast";
+import type { Product } from "@/types/types";
+
 
 interface ProductsItemProps {
-  products: IProduct[];
+  products: Product[];
 }
 
 const ProductItem = ({ products }: ProductsItemProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleAddToCart = (product: IProduct) => {
+  const handleAddToCart = (product: Product) => {
     if (product.countInStock > 0) {
       dispatch(addItemToCart({ product, quantity: 1 }));
     } else {

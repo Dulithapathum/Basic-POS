@@ -6,11 +6,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { showToast } from "../utils/toast";
-
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+import { loginSchema } from "@/validators/validators";
 
 type LoginFormInputs = z.infer<typeof loginSchema>;
 

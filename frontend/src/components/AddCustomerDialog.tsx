@@ -14,19 +14,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "./ui/label";
 import axios from "axios";
 import { showToast } from "@/utils/toast";
+import { customerFormSchema } from "@/validators/validators";
 
-const formSchema = z.object({
-  firstname: z.string().min(1, "First name is required"),
-  lastname: z.string().min(1, "Last name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z
-    .string()
-    .length(10, "Phone number must be exactly 10 digits")
-    .regex(/^\d+$/, "Phone number must contain only digits"),
-  address: z.string().min(1, "Address is required"),
-});
-
-type FormData = z.infer<typeof formSchema>;
+type FormData = z.infer<typeof customerFormSchema>;
 
 const AddCustomerDialog = () => {
   const [open, setOpen] = useState(false);
@@ -37,7 +27,7 @@ const AddCustomerDialog = () => {
     formState: { errors },
     reset,
   } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(customerFormSchema),
   });
 
   const onSubmit = async (data: FormData) => {

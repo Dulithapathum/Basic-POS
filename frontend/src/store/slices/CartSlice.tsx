@@ -1,9 +1,9 @@
+import type { Product } from "@/types/types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { IProduct } from "./ProductSlice";
 
 interface ICartItem {
-  product: IProduct;
+  product: Product;
   quantity: number;
 }
 

@@ -17,19 +17,9 @@ import type { AppDispatch } from "@/store/Store";
 import { addProduct } from "@/store/slices/ProductSlice";
 import { showToast } from "@/utils/toast";
 import { Input } from "./ui/input";
+import { productFormSchema } from "@/validators/validators";
 
-const formSchema = z.object({
-  name: z.string().min(1, "Product name is required"),
-  category: z.string().min(1, "Category is required"),
-  description: z.string().min(1, "Description is required"),
-  price: z.coerce.number().min(0, "Price must be a positive number"),
-  countInStock: z.coerce.number().min(0, "Count must be a positive number"),
-  image: z
-    .any()
-    .refine((files) => files?.length === 1, { message: "Image is required" }),
-});
-
-type FormData = z.infer<typeof formSchema>;
+type FormData = z.infer<typeof productFormSchema>;
 
 const AddProductDialog = () => {
   const [open, setOpen] = useState(false);
@@ -42,7 +32,7 @@ const AddProductDialog = () => {
     formState: { errors },
     reset,
   } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(productFormSchema),
   });
 
   const onSubmit = async (data: FormData) => {

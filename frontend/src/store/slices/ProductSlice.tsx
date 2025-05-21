@@ -1,19 +1,10 @@
+import type { Product } from "@/types/types";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export interface IProduct {
-  _id: string;
-  name: string;
-  category: string;
-  image: string;
-  description: string;
-  price: number;
-  countInStock: number;
-}
-
 interface ProductState {
-  products: IProduct[];
+  products: Product[];
   loading: boolean;
   error: string | null;
 }
@@ -25,7 +16,7 @@ const initialState: ProductState = {
 };
 
 export const fetchProducts = createAsyncThunk<
-  IProduct[],
+  Product[],
   void,
   { rejectValue: string }
 >("product/fetchProducts", async (_, { rejectWithValue }) => {
@@ -40,7 +31,7 @@ export const fetchProducts = createAsyncThunk<
 });
 
 export const addProduct = createAsyncThunk<
-  IProduct,
+  Product,
   FormData,
   { rejectValue: string }
 >("product/addProduct", async (data, { rejectWithValue }) => {
@@ -86,7 +77,7 @@ const productSlice = createSlice({
       })
       .addCase(
         fetchProducts.fulfilled,
-        (state, action: PayloadAction<IProduct[]>) => {
+        (state, action: PayloadAction<Product[]>) => {
           state.loading = false;
           state.products = action.payload;
         }

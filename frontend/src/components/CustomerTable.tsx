@@ -12,15 +12,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { showToast } from "@/utils/toast";
 import { Card } from "@/components/ui/card";
+import type { Customer } from "@/types/types";
 
-export type Customer = {
-  _id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  phone: string;
-  address: string;
-};
 
 type CustomerResponse = {
   success: boolean;

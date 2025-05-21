@@ -1,3 +1,4 @@
+import type { Customer } from "@/types/types";
 import {
   Select,
   SelectContent,
@@ -7,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import type { Customer } from "./CustomerTable";
 
 interface Props {
   customers: Customer[];

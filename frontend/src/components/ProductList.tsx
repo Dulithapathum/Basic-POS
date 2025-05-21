@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts, type IProduct } from "../store/slices/ProductSlice";
+import { fetchProducts } from "../store/slices/ProductSlice";
 import type { RootState, AppDispatch } from "../store/Store";
 import ProductCategories from "./ProductCategories";
 import ProductItem from "./ProductItem";
+import type { Product } from "@/types/types";
 
 const ProductList = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,7 +12,7 @@ const ProductList = () => {
     (state: RootState) => state.product
   );
   const [activeCategory, setActiveCategory] = useState("Electronics");
-  const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);

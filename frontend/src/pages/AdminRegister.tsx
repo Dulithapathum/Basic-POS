@@ -5,13 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
 import { showToast } from "../utils/toast";
-
-const registerSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+import { registerSchema } from "@/validators/validators";
 
 type RegisterFormInputs = z.infer<typeof registerSchema>;
 
