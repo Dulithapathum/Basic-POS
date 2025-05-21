@@ -1,10 +1,13 @@
-import { Button } from "@/components/ui/button";
+import ProductList from "@/components/ProductList";
 import NavBar from "../components/NavBar";
+import Cart from "@/components/Cart";
 
 const Dashboard = () => {
   return (
-    <div className="w-full flex bg-gray-200">
+    <div className="w-full flex justify-between bg-gray-200">
       <NavBar />
+      <ProductList />
+      <Cart />
     </div>
   );
 };
