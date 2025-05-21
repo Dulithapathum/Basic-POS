@@ -1,10 +1,9 @@
 import { Card, CardContent } from "./ui/card";
-import { useDispatch } from "react-redux";
-import type { AppDispatch } from "@/store/Store";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/store/Store";
 import { addItemToCart } from "../store/slices/CartSlice";
 import { showToast } from "@/utils/toast";
 import type { Product } from "@/types/types";
-
 
 interface ProductsItemProps {
   products: Product[];
@@ -12,8 +11,17 @@ interface ProductsItemProps {
 
 const ProductItem = ({ products }: ProductsItemProps) => {
   const dispatch = useDispatch<AppDispatch>();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const handleAddToCart = (product: Product) => {
+    const cartItem = cartItems.find((item) => item.product._id === product._id);
+    const currentQuantityInCart = cartItem ? cartItem.quantity : 0;
+
+    if (currentQuantityInCart >= product.countInStock) {
+      showToast("warning", "Cannot add more than available stock.");
+      return;
+    }
+
     if (product.countInStock > 0) {
       dispatch(addItemToCart({ product, quantity: 1 }));
     } else {
