@@ -61,7 +61,7 @@ const AddCustomerDialog = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="bg-[#ff1111] hover:bg-red-800 text-white">
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className=" h-4 w-4" />
           Add New Customer
         </Button>
       </DialogTrigger>
@@ -73,7 +73,10 @@ const AddCustomerDialog = () => {
           <DialogTitle className="text-center">Add New Customer</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-1 lg:space-y-2"
+        >
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="firstname">First Name</Label>

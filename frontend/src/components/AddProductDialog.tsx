@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store/Store";
 import { addProduct } from "@/store/slices/ProductSlice";
 import { showToast } from "@/utils/toast";
+import { Input } from "./ui/input";
 
 const formSchema = z.object({
   name: z.string().min(1, "Product name is required"),
@@ -58,7 +59,7 @@ const AddProductDialog = () => {
       showToast("success", "Product added successfully.");
       reset();
       setInputKey(Date.now());
-      setOpen(false); 
+      setOpen(false);
     } catch (error: any) {
       showToast("error", error || "Failed to add product");
     }
@@ -68,25 +69,28 @@ const AddProductDialog = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="bg-[#ff1111] hover:bg-red-800 text-white">
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className=" h-4 w-4" />
           Add New Product
         </Button>
       </DialogTrigger>
       <DialogContent
         aria-describedby={undefined}
-        className="sm:max-w-[600px] bg-white border-none"
+        className="w-[600px]  bg-white border-none"
       >
         <DialogHeader>
           <DialogTitle className="text-center">Add New Product</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-1 lg:space-y-2"
+        >
           <div>
             <Label htmlFor="name">Product Name</Label>
             <input
               id="name"
               {...register("name")}
-              className="w-full p-2 mt-1 border-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
+              className="w-full p-1 lg:p-2 mt-1 mb-2 border-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
             />
             {errors.name && (
               <p className="text-sm text-red-500">{errors.name.message}</p>
@@ -98,7 +102,7 @@ const AddProductDialog = () => {
             <select
               id="category"
               {...register("category")}
-              className="w-full p-2 mt-1 border-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
+              className="w-full p-1 lg:p-2 mt-1 border-2 mb-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
             >
               <option value="">Select category</option>
               <option value="Electronics">Electronics</option>
@@ -123,7 +127,7 @@ const AddProductDialog = () => {
               id="image"
               {...register("image")}
               accept="image/*"
-              className="w-full p-2 mt-1 border-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
+              className="w-full p-2 mt-1 border-2 mb-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
             />
             {errors.image?.message && (
               <p className="text-sm text-red-500">
@@ -134,11 +138,10 @@ const AddProductDialog = () => {
 
           <div>
             <Label htmlFor="description">Description</Label>
-            <textarea
+            <Input
               id="description"
               {...register("description")}
-              className="w-full p-2 mt-1 border-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
-              rows={3}
+              className="w-full p-2 mt-1 border-2 mb-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
             />
             {errors.description && (
               <p className="text-sm text-red-500">
@@ -154,7 +157,7 @@ const AddProductDialog = () => {
               step="0.01"
               id="price"
               {...register("price")}
-              className="w-full p-2 mt-1 border-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
+              className="w-full p-2 mt-1 border-2 mb-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
             />
             {errors.price && (
               <p className="text-sm text-red-500">{errors.price.message}</p>
@@ -167,7 +170,7 @@ const AddProductDialog = () => {
               type="number"
               id="countInStock"
               {...register("countInStock")}
-              className="w-full p-2 mt-1 border-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
+              className="w-full p-2 mt-1 border-2 mb-2 border-black rounded-sm outline-none hover:border-[#ff3131] transition"
             />
             {errors.countInStock && (
               <p className="text-sm text-red-500">

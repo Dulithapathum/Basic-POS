@@ -81,12 +81,12 @@ const Cart = () => {
   };
 
   return (
-    <div className="w-150 shadow-md bg-white">
+    <div className=" w-150 shadow-md bg-white">
       <div className="w-full bg-white h-15 p-5 shadow-sm">
         <h2 className="font-semibold text-lg">Cart Items</h2>
       </div>
 
-      <div className="p-4">
+      <div className="p-2 lg::p-4">
         <CustomerSelect customers={customers} onSelect={handleCustomerSelect} />
 
         {cartItems.length === 0 ? (

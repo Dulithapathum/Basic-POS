@@ -31,6 +31,7 @@ const ProductList = () => {
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
       />
+
       {loading && <p className="text-center p-4">Loading products...</p>}
       {error && <p className="text-center p-4 text-red-500">{error}</p>}
       <ProductItem products={filteredProducts} />
