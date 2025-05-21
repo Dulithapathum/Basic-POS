@@ -20,11 +20,11 @@ export default function ProductCategories({
     "Electronics",
     "Fashion",
     "Books",
-    "Home",
     "Toys",
     "Sports",
     "Beauty",
     "Automotive",
+    "Toys",
     "Sports",
     "Beauty",
     "Automotive",
@@ -32,7 +32,7 @@ export default function ProductCategories({
 
   return (
     <div className=" flex justify-center">
-      <Carousel className="max-w-[150px] md:max-w-4xl  px-1 py-3">
+      <Carousel className="max-w-lg  px-1 py-3">
         <CarouselContent className="-ml-2">
           {categories.map((category, index) => (
             <CarouselItem key={index} className="pl-2 basis-auto flex-shrink-0">

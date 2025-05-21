@@ -6,7 +6,7 @@ interface Props {
 }
 
 const CartActions = ({ onClear, onCheckout }: Props) => (
-  <div className="flex justify-evenly gap-2 mt-4">
+  <div className="flex justify-evenly gap-1 mt-4">
     <Button
       className="w-1/2 h-10 bg-orange-500 hover:bg-orange-700"
       onClick={onClear}

@@ -6,7 +6,7 @@ const Dashboard = () => {
   return (
     <div className="w-full flex justify-between bg-gray-200">
       <NavBar />
-      <ProductList />
+      {/* <ProductList /> */}
       <Cart />
     </div>
   );

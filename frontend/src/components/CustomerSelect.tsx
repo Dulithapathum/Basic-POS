@@ -16,7 +16,7 @@ interface Props {
 
 const CustomerSelect = ({ customers, onSelect }: Props) => (
   <Select onValueChange={onSelect}>
-    <SelectTrigger className="w-full p-4">
+    <SelectTrigger className="w-full p-2 ">
       <SelectValue placeholder="Select a Customer" />
     </SelectTrigger>
     <SelectContent>

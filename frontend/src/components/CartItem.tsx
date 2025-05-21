@@ -9,17 +9,19 @@ interface Props {
 }
 
 const CartItem = ({ item, onIncrease, onDecrease, onRemove }: Props) => (
-  <Card className="w-full flex flex-row items-center justify-between p-3">
+  <Card className="w-full flex flex-row items-center justify-between py-2 px-3 rounded-md">
     <img
       src={item.product.image}
       alt={item.product.name}
-      width={60}
+      width={50}
       className="brightness-80 rounded"
     />
-    <div className="flex w-full justify-between">
+    <div className="flex w-full justify-between items-center">
       <div>
-        <h4 className="font-semibold">{item.product.name}</h4>
-        <p className="text-gray-500 text-sm">
+        <h4 className="font-semibold text-sm capitalize lg:text-md">
+          {item.product.name}
+        </h4>
+        <p className="text-gray-500 text-[12px]  mt-1">
           ${item.product.price.toFixed(2)}
         </p>
       </div>
@@ -39,7 +41,7 @@ const CartItem = ({ item, onIncrease, onDecrease, onRemove }: Props) => (
             +
           </div>
         </div>
-        <p className="text-gray-600 text-sm">
+        <p className="text-gray-600 text-[12px]">
           ${(item.product.price * item.quantity).toFixed(2)}
         </p>
       </div>

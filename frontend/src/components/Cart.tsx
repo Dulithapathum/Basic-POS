@@ -81,35 +81,48 @@ const Cart = () => {
   };
 
   return (
-    <div className=" w-150 shadow-md bg-white">
-      <div className="w-full bg-white h-15 p-5 shadow-sm">
-        <h2 className="font-semibold text-lg">Cart Items</h2>
+    <div className=" w-80 lg:w-100 h-screen flex flex-col justify-between  shadow-md bg-white">
+      <div>
+        <div className="w-full bg-white h-10 p-2 shadow-sm mb-6">
+          <h2 className="font-semibold text-md lg:text-lg">Cart Items</h2>
+        </div>
+        <div className="mx-2">
+          <CustomerSelect
+            customers={customers}
+            onSelect={handleCustomerSelect}
+          />
+        </div>
+        <div className="p-2 ">
+          {cartItems.length === 0 ? (
+            <div className="h-80 w-full flex flex-col justify-center items-center">
+              <LucideShoppingBag className="w-8 h-8 text-orange-400 mb-3" />
+              <h2 className="text-orange-400 text-lg font-semibold">
+                Your cart is empty
+              </h2>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-1 my-2 h-71 lg:h-90 overflow-y-auto overflow-x-hidden">
+              {cartItems.map((item) => (
+                <CartItem
+                  key={item.product._id}
+                  item={item}
+                  onIncrease={() =>
+                    dispatch(increaseQuantity(item.product._id))
+                  }
+                  onDecrease={() =>
+                    dispatch(decreaseQuantity(item.product._id))
+                  }
+                  onRemove={() =>
+                    dispatch(removeItemFromCart(item.product._id))
+                  }
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="p-2 lg::p-4">
-        <CustomerSelect customers={customers} onSelect={handleCustomerSelect} />
-
-        {cartItems.length === 0 ? (
-          <div className="h-100 w-full flex flex-col justify-center items-center">
-            <LucideShoppingBag className="w-10 h-10 text-orange-400 mb-2" />
-            <h2 className="text-orange-400 text-xl font-semibold">
-              Your cart is empty
-            </h2>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2 my-5 h-92 overflow-y-auto overflow-x-hidden">
-            {cartItems.map((item) => (
-              <CartItem
-                key={item.product._id}
-                item={item}
-                onIncrease={() => dispatch(increaseQuantity(item.product._id))}
-                onDecrease={() => dispatch(decreaseQuantity(item.product._id))}
-                onRemove={() => dispatch(removeItemFromCart(item.product._id))}
-              />
-            ))}
-          </div>
-        )}
-
+      <div className="p-2">
         <CartSummary
           subtotal={subTotalPrice}
           shipping={shippingCost}
