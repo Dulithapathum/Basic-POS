@@ -59,12 +59,12 @@ const Cart = () => {
   const handleCheckout = async () => {
     try {
       if (!Items.customerId) {
-        showToast("error", "Please select a customer before checkout.");
+        showToast("warning", "Please select a customer before checkout.");
         return;
       }
 
       if (Items.items.length === 0) {
-        showToast("error", "Cart is empty.");
+        showToast("warning", "Cart is empty.");
         return;
       }
       await axios.post(`${import.meta.env.VITE_API_URL}/api/cart`, {
