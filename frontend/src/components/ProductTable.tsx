@@ -17,6 +17,18 @@ import type { AppDispatch, RootState } from "@/store/Store";
 import { Card } from "./ui/card";
 import { CURRENCY_SIGN } from "@/types/constant";
 
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+
 const PRODUCTS_PER_PAGE = 4;
 
 const ProductTable = () => {
@@ -26,19 +38,28 @@ const ProductTable = () => {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null
+  );
 
-  const handleDeleteProduct = async (id: string) => {
+  const confirmDeleteProduct = async () => {
+    if (!selectedProductId) return;
+
     try {
       const token = localStorage.getItem("token");
 
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/products/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/products/${selectedProductId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       showToast("success", "Product deleted successfully");
       dispatch(fetchProducts());
+      setSelectedProductId(null);
     } catch (error) {
       console.error("Failed to delete product:", error);
       showToast("error", "Error deleting product");
@@ -47,7 +68,7 @@ const ProductTable = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [dispatch]);
 
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
@@ -58,7 +79,7 @@ const ProductTable = () => {
 
   return (
     <Card className="max-w-8xl p-4 mx-8 mt-4 rounded-md shadow-lg">
-      <h2 className="text-xl font-semibold ">Product List</h2>
+      <h2 className="text-xl font-semibold">Product List</h2>
 
       {loading ? (
         <p>Loading...</p>
@@ -66,7 +87,7 @@ const ProductTable = () => {
         <p className="text-gray-600">No products found.</p>
       ) : (
         <>
-          <div className=" h-auto rounded-lg border border-gray-200">
+          <div className="h-auto rounded-lg border border-gray-200">
             <Table>
               <caption className="sr-only">Product Data Table</caption>
               <TableHeader>
@@ -92,19 +113,46 @@ const ProductTable = () => {
                     <TableCell>{product.name}</TableCell>
                     <TableCell>{product.category}</TableCell>
                     <TableCell>
-                      {" "}
                       {CURRENCY_SIGN} {product.price.toFixed(2)}
                     </TableCell>
                     <TableCell>{product.countInStock}</TableCell>
                     <TableCell className="text-center">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDeleteProduct(product._id)}
-                        aria-label="Delete product"
-                      >
-                        <Trash2 className="h-4 w-4 text-red-500" />
-                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setSelectedProductId(product._id)}
+                            aria-label="Delete product"
+                          >
+                            <Trash2 className="h-4 w-4 text-red-500" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Are you absolutely sure?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will
+                              permanently delete the product from your store.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel
+                              onClick={() => setSelectedProductId(null)}
+                            >
+                              Cancel
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-red-500 hover:bg-red-600"
+                              onClick={confirmDeleteProduct}
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </TableCell>
                   </TableRow>
                 ))}
