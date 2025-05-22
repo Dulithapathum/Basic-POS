@@ -25,17 +25,18 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 
+const CUSTOMERS_PER_PAGE = 4;
+
 type CustomerResponse = {
   success: boolean;
   data: Customer[];
 };
 
-const CUSTOMERS_PER_PAGE = 4;
-
 const CustomerTable = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(
     null
   );
@@ -79,20 +80,40 @@ const CustomerTable = () => {
     fetchCustomers();
   }, []);
 
-  const totalPages = Math.ceil(customers.length / CUSTOMERS_PER_PAGE);
+  const filteredCustomers = customers.filter((customer) => {
+    const fullName = `${customer.firstname} ${customer.lastname}`.toLowerCase();
+    return (
+      fullName.includes(searchTerm.toLowerCase()) ||
+      customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.phone.includes(searchTerm)
+    );
+  });
+
+  const totalPages = Math.ceil(filteredCustomers.length / CUSTOMERS_PER_PAGE);
   const startIndex = (currentPage - 1) * CUSTOMERS_PER_PAGE;
-  const currentCustomers = customers.slice(
+  const currentCustomers = filteredCustomers.slice(
     startIndex,
     startIndex + CUSTOMERS_PER_PAGE
   );
 
   return (
     <Card className="w-[640px] lg:w-auto p-4 mx-8 mt-4 rounded-md shadow-lg">
-      <h2 className="text-xl font-semibold mb-4">Customer List</h2>
+      <h2 className="text-xl font-semibold mb-1">Customer List</h2>
+
+      <input
+        type="text"
+        placeholder="Search by name, email or phone..."
+        value={searchTerm}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setCurrentPage(1);
+        }}
+        className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-md"
+      />
 
       {loading ? (
         <p>Loading...</p>
-      ) : customers.length === 0 ? (
+      ) : filteredCustomers.length === 0 ? (
         <p className="text-gray-600">
           No customers found. Add a new customer to get started.
         </p>

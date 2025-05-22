@@ -41,6 +41,7 @@ const ProductTable = () => {
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
+  const [searchQuery, setSearchQuery] = useState("");
 
   const confirmDeleteProduct = async () => {
     if (!selectedProductId) return;
@@ -70,21 +71,38 @@ const ProductTable = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-  const currentProducts = products.slice(
+  const currentProducts = filteredProducts.slice(
     startIndex,
     startIndex + PRODUCTS_PER_PAGE
   );
 
   return (
     <Card className="max-w-8xl p-4 mx-8 mt-4 rounded-md shadow-lg">
-      <h2 className="text-xl font-semibold">Product List</h2>
+      <h2 className="text-xl font-semibold mb-1">Product List</h2>
+
+      <input
+        type="text"
+        placeholder="Search by name or category..."
+        className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-md"
+        value={searchQuery}
+        onChange={(e) => {
+          setSearchQuery(e.target.value);
+          setCurrentPage(1);
+        }}
+      />
 
       {loading ? (
         <p>Loading...</p>
-      ) : products.length === 0 ? (
-        <p className="text-gray-600">No products found.</p>
+      ) : filteredProducts.length === 0 ? (
+        <p className="text-gray-600">No matching products found.</p>
       ) : (
         <>
           <div className="h-auto rounded-lg border border-gray-200">
