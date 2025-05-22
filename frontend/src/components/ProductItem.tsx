@@ -4,6 +4,7 @@ import type { AppDispatch, RootState } from "@/store/Store";
 import { addItemToCart } from "../store/slices/CartSlice";
 import { showToast } from "@/utils/toast";
 import type { Product } from "@/types/types";
+import { CURRENCY_SIGN } from "@/types/constant";
 
 interface ProductsItemProps {
   products: Product[];
@@ -61,7 +62,7 @@ const ProductItem = ({ products }: ProductsItemProps) => {
               )}
 
               <p className="text-center font-bold text-gray-900 mt-1">
-                ${product.price.toFixed(2)}
+                {CURRENCY_SIGN} {product.price.toFixed(2)}
               </p>
             </div>
           </CardContent>

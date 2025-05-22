@@ -20,6 +20,7 @@ import CartActions from "./CartActions";
 import { showToast } from "@/utils/toast";
 import type { Customer } from "@/types/types";
 import { fetchProducts } from "@/store/slices/ProductSlice";
+import { SHIPPING_COST } from "@/types/constant";
 
 const Cart = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,7 +33,7 @@ const Cart = () => {
     (sum, item) => sum + item.quantity * item.product.price,
     0
   );
-  const shippingCost = totalQuantity * 5;
+  const shippingCost = totalQuantity * SHIPPING_COST;
   const totalPrice = subTotalPrice + shippingCost;
 
   useEffect(() => {

@@ -15,6 +15,7 @@ import { fetchProducts } from "@/store/slices/ProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/Store";
 import { Card } from "./ui/card";
+import { CURRENCY_SIGN } from "@/types/constant";
 
 const PRODUCTS_PER_PAGE = 4;
 
@@ -48,7 +49,6 @@ const ProductTable = () => {
     dispatch(fetchProducts());
   }, []);
 
-  // Pagination logic
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const currentProducts = products.slice(
@@ -91,7 +91,10 @@ const ProductTable = () => {
                     </TableCell>
                     <TableCell>{product.name}</TableCell>
                     <TableCell>{product.category}</TableCell>
-                    <TableCell>${product.price.toFixed(2)}</TableCell>
+                    <TableCell>
+                      {" "}
+                      {CURRENCY_SIGN} {product.price.toFixed(2)}
+                    </TableCell>
                     <TableCell>{product.countInStock}</TableCell>
                     <TableCell className="text-center">
                       <Button

@@ -1,3 +1,4 @@
+import { CURRENCY_SIGN } from "@/types/constant";
 import { Card } from "./ui/card";
 import { FaRegTrashAlt } from "react-icons/fa";
 
@@ -22,7 +23,7 @@ const CartItem = ({ item, onIncrease, onDecrease, onRemove }: Props) => (
           {item.product.name}
         </h4>
         <p className="text-gray-500 text-[12px]  mt-1">
-          ${item.product.price.toFixed(2)}
+          {CURRENCY_SIGN} {item.product.price.toFixed(2)}
         </p>
       </div>
       <div className="flex flex-col items-end">
@@ -42,12 +43,12 @@ const CartItem = ({ item, onIncrease, onDecrease, onRemove }: Props) => (
           </div>
         </div>
         <p className="text-gray-600 text-[12px]">
-          ${(item.product.price * item.quantity).toFixed(2)}
+          {CURRENCY_SIGN} {(item.product.price * item.quantity).toFixed(2)}
         </p>
       </div>
     </div>
     <button
-      className="hover:text-red-500 transition-colors duration-200"
+      className="hover:text-red-500 transition-colors duration-200 cursor-pointer"
       onClick={onRemove}
     >
       <FaRegTrashAlt />
