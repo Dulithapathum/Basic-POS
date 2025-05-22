@@ -13,7 +13,17 @@ import axios from "axios";
 import { showToast } from "@/utils/toast";
 import { Card } from "@/components/ui/card";
 import type { Customer } from "@/types/types";
-
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
 type CustomerResponse = {
   success: boolean;
@@ -26,6 +36,9 @@ const CustomerTable = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(
+    null
+  );
 
   const fetchCustomers = async () => {
     try {
@@ -40,11 +53,13 @@ const CustomerTable = () => {
     }
   };
 
-  const handleDeleteCustomer = async (id: string) => {
+  const handleDeleteCustomer = async () => {
+    if (!selectedCustomerId) return;
+
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `${import.meta.env.VITE_API_URL}/api/customers/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/customers/${selectedCustomerId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -52,7 +67,8 @@ const CustomerTable = () => {
         }
       );
       showToast("success", "User deleted successfully");
-      setCustomers(customers.filter((customer) => customer._id !== id));
+      setCustomers(customers.filter((c) => c._id !== selectedCustomerId));
+      setSelectedCustomerId(null);
     } catch (error) {
       console.error("Failed to delete customer:", error);
       showToast("error", "Error deleting customer");
@@ -63,7 +79,6 @@ const CustomerTable = () => {
     fetchCustomers();
   }, []);
 
-  // Pagination logic
   const totalPages = Math.ceil(customers.length / CUSTOMERS_PER_PAGE);
   const startIndex = (currentPage - 1) * CUSTOMERS_PER_PAGE;
   const currentCustomers = customers.slice(
@@ -105,14 +120,36 @@ const CustomerTable = () => {
                     <TableCell>{customer.phone}</TableCell>
                     <TableCell>{customer.address}</TableCell>
                     <TableCell className="text-center">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDeleteCustomer(customer._id)}
-                        aria-label="Delete customer"
-                      >
-                        <Trash2 className="h-4 w-4 text-red-500" />
-                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setSelectedCustomerId(customer._id)}
+                          >
+                            <Trash2 className="h-4 w-4 text-red-500" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Are you sure you want to delete this customer?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-red-500 hover:bg-red-600"
+                              onClick={handleDeleteCustomer}
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </TableCell>
                   </TableRow>
                 ))}
